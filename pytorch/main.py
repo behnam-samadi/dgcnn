@@ -153,9 +153,20 @@ def test(args, io):
     for data, label in test_loader:
 
         data, label = data.to(device), label.to(device).squeeze()
+        print(type(data[0]))
+        print(data[0].shape)
+        raise(False)
         data = data.permute(0, 2, 1)
         batch_size = data.size()[0]
-        logits = model(data)
+        logits, reps = model(data)
+        x1,x2,x3,x4 = reps
+        print(type(x2))
+        print(x1.shape)
+        print(x2.shape)
+        print(x3.shape)
+        print(x4.shape)
+        print("--------------------------------")
+        raise(False)
         preds = logits.max(dim=1)[1]
         test_true.append(label.cpu().numpy())
         test_pred.append(preds.detach().cpu().numpy())

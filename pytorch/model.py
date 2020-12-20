@@ -139,6 +139,7 @@ class DGCNN(nn.Module):
         x4 = x.max(dim=-1, keepdim=False)[0]
 
         x = torch.cat((x1, x2, x3, x4), dim=1)
+        reps = (x1, x2, x3, x4)
 
         x = self.conv5(x)
         x1 = F.adaptive_max_pool1d(x, 1).view(batch_size, -1)
@@ -150,4 +151,4 @@ class DGCNN(nn.Module):
         x = F.leaky_relu(self.bn7(self.linear2(x)), negative_slope=0.2)
         x = self.dp2(x)
         x = self.linear3(x)
-        return x
+        return x, reps
